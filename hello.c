@@ -15,7 +15,42 @@
 #include <string.h>
 #include <unistd.h>
 
+#define SIZE 32
+#define WIDTH 
+#define HEIGHT
+
 int vga_ball_fd;
+
+struct Point {
+	int x;
+	int y;
+	int dx;
+	int dy;
+};
+
+struct Position {
+	int x;
+	int y;
+};
+
+// Update the position
+void update(struct Point *point) {
+	point.x += point.dx;
+	point.y += point.dy;
+
+	if (point.x <= 0 || point.x >= WIDTH - 1) {
+		point.dx = -point.dx;
+	}
+	if (point.y <= 0 || point.y >= HEIGHT - 1) {
+		point.dy = -point.dy;
+	}
+	
+	struct Position position {point.x, point.y};
+	if (ioctl(vga_ball_fd, VGA_BALL_WRITE_POSITION, &position)) {
+		perror("ioctl(VGA_BALL_WRITE_POSITION) failed");
+		return;
+	}
+}
 
 /* Read and print the background color */
 void print_background_color() {
@@ -45,7 +80,6 @@ int main()
   vga_ball_arg_t vla;
   int i;
   static const char filename[] = "/dev/vga_ball";
-
   static const vga_ball_color_t colors[] = {
     { 0xff, 0x00, 0x00 }, /* Red */
     { 0x00, 0xff, 0x00 }, /* Green */
@@ -75,7 +109,14 @@ int main()
     print_background_color();
     usleep(400000);
   }
-  
+//
+	struct Point ball = {10, 10, 10, 10};
+	while (1) {
+		update(&ball);
+		sleep(1);
+	}
+//
+
   printf("VGA BALL Userspace program terminating\n");
   return 0;
 }
