@@ -28,7 +28,7 @@ struct Point {
 };
 
 // Update the position of the ball
-void update(struct Point *point) {
+void update(Point *point) {
 	vga_ball_arg_t vla;
 	vga_ball_color_t position;
 	struct Point point;
