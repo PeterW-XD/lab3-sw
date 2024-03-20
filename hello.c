@@ -15,9 +15,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#define SIZE 32
-#define WIDTH 
-#define HEIGHT
+#define WIDTH 1600 - 64 
+#define HEIGHT 525 - 32
 
 int vga_ball_fd;
 
@@ -28,13 +27,10 @@ struct Point {
 	int dy;
 };
 
-struct Position {
-	int x;
-	int y;
-};
-
-// Update the position
+// Update the position of the ball
 void update(struct Point *point) {
+	vga_ball_arg_t vla;
+
 	point.x += point.dx;
 	point.y += point.dy;
 
@@ -45,26 +41,16 @@ void update(struct Point *point) {
 		point.dy = -point.dy;
 	}
 	
-	struct Position position {point.x, point.y};
-	if (ioctl(vga_ball_fd, VGA_BALL_WRITE_POSITION, &position)) {
+	vga_ball_color_t position {0x00, (unsigned char) point.x, (unsigned char) point.y};
+	vla.background = position; 
+
+	if (ioctl(vga_ball_fd, VGA_BALL_WRITE_BACKGROUND, &vla)) {
 		perror("ioctl(VGA_BALL_WRITE_POSITION) failed");
 		return;
 	}
 }
 
-/* Read and print the background color */
-void print_background_color() {
-  vga_ball_arg_t vla;
-  
-  if (ioctl(vga_ball_fd, VGA_BALL_READ_BACKGROUND, &vla)) {
-      perror("ioctl(VGA_BALL_READ_BACKGROUND) failed");
-      return;
-  }
-  printf("%02x %02x %02x\n",
-	 vla.background.red, vla.background.green, vla.background.blue);
-}
-
-/* Set the background color */
+// Set the background color 
 void set_background_color(const vga_ball_color_t *c)
 {
   vga_ball_arg_t vla;
@@ -74,6 +60,7 @@ void set_background_color(const vga_ball_color_t *c)
       return;
   }
 }
+
 
 int main()
 {
@@ -100,7 +87,7 @@ int main()
     fprintf(stderr, "could not open %s\n", filename);
     return -1;
   }
-
+/*
   printf("initial state: ");
   print_background_color();
 
@@ -109,13 +96,14 @@ int main()
     print_background_color();
     usleep(400000);
   }
-//
-	struct Point ball = {10, 10, 10, 10};
+*/
+
+// Update ball position 
+	Point ball = {10, 10, 10, 10};
 	while (1) {
 		update(&ball);
-		sleep(1);
+    usleep(400000);
 	}
-//
 
   printf("VGA BALL Userspace program terminating\n");
   return 0;
