@@ -31,7 +31,7 @@ struct Point {
 void update(struct Point *point) {
 	vga_ball_arg_t vla;
 	vga_ball_color_t position;
-	Point point;
+	struct Point point;
 	
 	point.x += point.dx;
 	point.y += point.dy;
