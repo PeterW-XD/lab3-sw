@@ -86,16 +86,16 @@ int main()
 */
 
 // Update ball position 
-	struct Point point = {10, 10, 10, 10};
+	struct Point point = {10, 10, 1, 1};
 	unsigned char input[3];
 	while (1) {
 	point.x += point.dx;
 	point.y += point.dy;
 
-	if (point.x <= 0 || point.x >= WIDTH - 1 - 64 -10) {
+	if (point.x <= 0 || point.x >= WIDTH - 1 - 64 - 1) {
 		point.dx = -point.dx;
 	}
-	if (point.y <= 0 || point.y >= HEIGHT - 1 - 32 - 10) {
+	if (point.y <= 0 || point.y >= HEIGHT - 1 - 32 - 1) {
 		point.dy = -point.dy;
 	}
 	input[0] = point.x % 256;
@@ -103,7 +103,7 @@ int main()
 	input[2] = point.x / 256 * 4 + point.y / 256; 
 	vga_ball_color_t position = {input[0], input[1], input[2]};
 	set_background_color(&position);
-    usleep(400000);
+    usleep(4000);
 	}
 
   printf("VGA BALL Userspace program terminating\n");
