@@ -92,10 +92,10 @@ int main()
 	point.x += point.dx;
 	point.y += point.dy;
 
-	if (point.x <= 0 || point.x >= WIDTH - 2 - 64) {
+	if (point.x <= 0 || point.x >= WIDTH - 1 - 64 -10) {
 		point.dx = -point.dx;
 	}
-	if (point.y <= 0 || point.y >= HEIGHT - 2 - 32) {
+	if (point.y <= 0 || point.y >= HEIGHT - 1 - 32 - 10) {
 		point.dy = -point.dy;
 	}
 	input[0] = point.x % 256;
