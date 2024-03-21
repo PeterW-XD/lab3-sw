@@ -92,10 +92,10 @@ int main()
 	point.x += point.dx;
 	point.y += point.dy;
 
-	if (point.x == 0 || point.x == WIDTH) {
+	if (point.x == 0 || point.x == WIDTH - 64) {
 		point.dx = -point.dx;
 	}
-	if (point.y == 0 || point.y == HEIGHT) {
+	if (point.y == 0 || point.y == HEIGHT - 32) {
 		point.dy = -point.dy;
 	}
 	input[0] = point.x % 256;
@@ -103,7 +103,7 @@ int main()
 	input[2] = point.x / 256 * 4 + point.y / 256;
 	vga_ball_color_t position = {input[0], input[1], input[2]};
 	set_background_color(&position);
-    usleep(40000);
+    usleep(4000);
 	}
 
   printf("VGA BALL Userspace program terminating\n");
