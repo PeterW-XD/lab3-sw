@@ -15,8 +15,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#define WIDTH 159
-#define HEIGHT 119
+#define WIDTH 79
+#define HEIGHT 59
 
 int vga_ball_fd;
 
@@ -102,7 +102,7 @@ int main()
 	input[1] = point.y;
 	vga_ball_color_t position = {0x0, input[0], input[1]};
 	set_background_color(&position);
-    usleep(4000);
+    usleep(40000);
 	}
 
   printf("VGA BALL Userspace program terminating\n");
