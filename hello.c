@@ -16,7 +16,7 @@
 #include <unistd.h>
 
 #define WIDTH 1279
-#define HEIGHT 279
+#define HEIGHT 479
 
 int vga_ball_fd;
 
