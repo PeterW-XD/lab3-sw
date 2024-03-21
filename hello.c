@@ -103,7 +103,7 @@ int main()
 	input[2] = point.x / 256 * 4 + point.y / 256; 
 	vga_ball_color_t position = {input[0], input[1], input[2]};
 	set_background_color(&position);
-    usleep(42500);
+    usleep(2000);
 	}
 
   printf("VGA BALL Userspace program terminating\n");
