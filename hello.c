@@ -27,32 +27,6 @@ struct Point {
 	int dy;
 };
 
-// Update the position of the ball
-void update(struct Point point) {
-	unsigned char input[3];
-	vga_ball_arg_t vla;
-	
-	point.x += point.dx;
-	point.y += point.dy;
-
-	if (point.x <= 0 || point.x >= WIDTH - 1) {
-		point.dx = -point.dx;
-	}
-	if (point.y <= 0 || point.y >= HEIGHT - 1) {
-		point.dy = -point.dy;
-	}
-	input[0] = point.x % 256;
-	input[1] = point.y % 256;
-	input[2] = point.x / 256 * 4 + point.y / 256; 
-	vga_ball_color_t position = {input[0], input[1], input[2]};
-	vla.background = position; 
-
-	if (ioctl(vga_ball_fd, VGA_BALL_WRITE_BACKGROUND, &vla)) {
-		perror("ioctl(VGA_BALL_WRITE_POSITION) failed");
-		return;
-	}
-}
-
 /* Read and print the background color */
 void print_background_color() {
   vga_ball_arg_t vla;
@@ -115,8 +89,22 @@ int main()
 
 // Update ball position 
 	struct Point ball = {10, 10, 1, 1};
+	unsigned char input[3];
 	while (1) {
-		update(ball);
+	point.x += point.dx;
+	point.y += point.dy;
+
+	if (point.x <= 0 || point.x >= WIDTH - 1) {
+		point.dx = -point.dx;
+	}
+	if (point.y <= 0 || point.y >= HEIGHT - 1) {
+		point.dy = -point.dy;
+	}
+	input[0] = point.x % 256;
+	input[1] = point.y % 256;
+	input[2] = point.x / 256 * 4 + point.y / 256; 
+	vga_ball_color_t position = {input[0], input[1], input[2]};
+	set_background_color(&position)
   	print_background_color();
     usleep(400000);
 	}
