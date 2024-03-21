@@ -106,7 +106,7 @@ int main()
 	vga_ball_color_t position = {input[0], input[1], input[2]};
 	set_background_color(&position);
   	print_background_color();
-    usleep(40000);
+    usleep(4000);
 	}
 
   printf("VGA BALL Userspace program terminating\n");
