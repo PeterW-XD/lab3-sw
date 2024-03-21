@@ -29,6 +29,7 @@ struct Point {
 
 // Update the position of the ball
 void update(struct Point point) {
+	unsigned char input[3];
 	vga_ball_arg_t vla;
 	
 	point.x += point.dx;
@@ -40,8 +41,10 @@ void update(struct Point point) {
 	if (point.y <= 0 || point.y >= HEIGHT - 1) {
 		point.dy = -point.dy;
 	}
-	
-	vga_ball_color_t position = {0x00, (unsigned char) point.x, (unsigned char) point.y};
+	input[0] = point.x % 256;
+	input[1] = point.y % 256;
+	input[2] = point.x / 256 * 4 + point.y / 256; 
+	vga_ball_color_t position = {input[0], input[1], input[2]};
 	vla.background = position; 
 
 	if (ioctl(vga_ball_fd, VGA_BALL_WRITE_BACKGROUND, &vla)) {
@@ -99,7 +102,7 @@ int main()
 */
 
 // Update ball position 
-	struct Point ball = {10, 10, 10, 10};
+	struct Point ball = {10, 10, 1, 1};
 	while (1) {
 		update(ball);
     usleep(400000);
