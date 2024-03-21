@@ -88,7 +88,7 @@ int main()
 */
 
 // Update ball position 
-	struct Point print = {10, 10, 1, 1};
+	struct Point point = {10, 10, 1, 1};
 	unsigned char input[3];
 	while (1) {
 	point.x += point.dx;
