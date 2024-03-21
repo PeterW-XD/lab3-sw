@@ -15,8 +15,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#define WIDTH 1600
-#define HEIGHT 525
+#define WIDTH 1280
+#define HEIGHT 480
 
 int vga_ball_fd;
 
@@ -92,10 +92,10 @@ int main()
 	point.x += point.dx;
 	point.y += point.dy;
 
-	if (point.x <= 0 || point.x >= WIDTH - 1 - 64 - 1) {
+	if (point.x <= 0 || point.x >= WIDTH - 1 - 64) {
 		point.dx = -point.dx;
 	}
-	if (point.y <= 0 || point.y >= HEIGHT - 1 - 32 - 1) {
+	if (point.y <= 0 || point.y >= HEIGHT - 1 - 32) {
 		point.dy = -point.dy;
 	}
 	input[0] = point.x % 256;
