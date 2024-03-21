@@ -15,8 +15,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#define WIDTH 79
-#define HEIGHT 59
+#define WIDTH 1279
+#define HEIGHT 279
 
 int vga_ball_fd;
 
@@ -87,7 +87,7 @@ int main()
 
 // Update ball position 
 	struct Point point = {10, 10, 1, 1};
-	unsigned char input[2];
+	unsigned char input[3];
 	while (1) {
 	point.x += point.dx;
 	point.y += point.dy;
@@ -98,9 +98,10 @@ int main()
 	if (point.y <= 0 || point.y >= HEIGHT) {
 		point.dy = -point.dy;
 	}
-	input[0] = point.x;
-	input[1] = point.y;
-	vga_ball_color_t position = {0x0, input[0], input[1]};
+	input[0] = point.x % 256;
+	input[1] = point.y % 256;
+	input[2] = point.x / 256 * 2 + point.y / 256;
+	vga_ball_color_t position = {input[0], input[1], input[2]};
 	set_background_color(&position);
     usleep(40000);
 	}
