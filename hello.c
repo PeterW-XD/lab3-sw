@@ -53,6 +53,18 @@ void update(struct Point point) {
 	}
 }
 
+/* Read and print the background color */
+void print_background_color() {
+  vga_ball_arg_t vla;
+  
+  if (ioctl(vga_ball_fd, VGA_BALL_READ_BACKGROUND, &vla)) {
+      perror("ioctl(VGA_BALL_READ_BACKGROUND) failed");
+      return;
+  }
+  printf("%02x %02x %02x\n",
+	 vla.background.red, vla.background.green, vla.background.blue);
+}
+
 // Set the background color 
 void set_background_color(const vga_ball_color_t *c)
 {
@@ -90,10 +102,10 @@ int main()
     fprintf(stderr, "could not open %s\n", filename);
     return -1;
   }
-/*
+
   printf("initial state: ");
   print_background_color();
-
+/*
   for (i = 0 ; i < 24 ; i++) {
     set_background_color(&colors[i % COLORS ]);
     print_background_color();
@@ -105,6 +117,7 @@ int main()
 	struct Point ball = {10, 10, 1, 1};
 	while (1) {
 		update(ball);
+  	print_background_color();
     usleep(400000);
 	}
 
