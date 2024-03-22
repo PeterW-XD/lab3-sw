@@ -86,23 +86,23 @@ int main()
 */
 
 // Update ball position 
-	struct Point point = {10, 10, 1, 1};
-	unsigned char input[3];
+	struct Point point = {10, 10, 1, 1};// Initial position & speed
+	unsigned char input[3]; 						// Payload
 	while (1) {
-	point.x += point.dx;
+	point.x += point.dx;								// Update position w/ speed
 	point.y += point.dy;
 
-	if (point.x == 0 || point.x == WIDTH - 64) {
-		point.dx = -point.dx;
+	if (point.x == 0 || point.x == WIDTH - 64) {	// Touch the right side
+		point.dx = -point.dx;												// 64 is the width
 	}
-	if (point.y == 0 || point.y == HEIGHT - 32) {
+	if (point.y == 0 || point.y == HEIGHT - 32) {	// 32 is the height
 		point.dy = -point.dy;
 	}
-	input[0] = point.x % 256;
-	input[1] = point.y % 256;
-	input[2] = point.x / 256 * 4 + point.y / 256;
-	vga_ball_color_t position = {input[0], input[1], input[2]};
-	set_background_color(&position);
+	input[0] = point.x % 256; // Lower 8 digits
+	input[1] = point.y % 256;	// Lower 8 digits
+	input[2] = point.x / 256 * 4 + point.y / 256;	// Higher 3 digits of coorx and higher 2 digits of coory
+	vga_ball_color_t position = {input[0], input[1], input[2]}; // Loading
+	set_background_color(&position); // Sent
     usleep(4000);
 	}
 
